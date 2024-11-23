@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <Pyro Chat>Secure Chat</Pyro Chat>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        .login-container, .chat-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 50px auto;
+            background: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            display: none;
+        }
+        .login-container.active, .chat-container.active {
+            display: block;
+        }
+        .chat-header {
+            background: #6200ea;
+            color: white;
+            padding: 15px;
+            border-radius: 10px 10px 0 0;
+            text-align: center;
+        }
+        .chat-box {
+            padding: 20px;
+            height: 300px;
+            overflow-y: auto;
+            border-bottom: 1px solid #ddd;
+        }
+        .chat-message {
+            margin-bottom: 10px;
+        }
+        .chat-message.user {
+            text-align: right;
+        }
+        .chat-message.bot {
+            text-align: left;
+        }
+        .chat-footer {
+            display: flex;
+            padding: 10px;
+        }
+        .chat-footer input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        .chat-footer button {
+            padding: 10px 20px;
+            background: #6200ea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .login-container input, .login-container button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .login-container button {
+            background: #6200ea;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container active" id="loginContainer">
+        <h2>Login to Secure Chat</h2>
+        <input type="password" id="passwordInput" placeholder="Enter password">
+        <button onclick="login()">Login</button>
+        <p id="errorMessage" style="color: red; display: none;">Incorrect password. Please try again.</p>
+    </div>
+
+    <div class="chat-container" id="chatContainer">
+        <div class="chat-header">
+            Secure Chat
+        </div>
+        <div class="chat-box" id="chatBox">
+            <!-- Chat messages will appear here -->
+        </div>
+        <div class="chat-footer">
+            <input type="text" id="chatInput" placeholder="Type a message...">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        const correctPassword = "secure123"; // Set your password here
+
+        function login() {
+            const passwordInput = document.getElementById("passwordInput").value;
+            const loginContainer = document.getElementById("loginContainer");
+            const chatContainer = document.getElementById("chatContainer");
+            const errorMessage = document.getElementById("errorMessage");
+
+            if (passwordInput === correctPassword) {
+                loginContainer.classList.remove("active");
+                chatContainer.classList.add("active");
+            } else {
+                errorMessage.style.display = "block";
+            }
+        }
+
+        function sendMessage() {
+            const chatBox = document.getElementById("chatBox");
+            const chatInput = document.getElementById("chatInput");
+
+            const userMessage = chatInput.value;
+            if (!userMessage.trim()) return;
+
+            // Display user's message
+            const userMessageElem = document.createElement('div');
+            userMessageElem.className = 'chat-message user';
+            userMessageElem.textContent = userMessage;
+            chatBox.appendChild(userMessageElem);
+
+            // Simulate bot response
+            const botMessageElem = document.createElement('div');
+            botMessageElem.className = 'chat-message bot';
+            botMessageElem.textContent = "Bot: You said \"" + userMessage + "\".";
+            chatBox.appendChild(botMessageElem);
+
+            // Clear input field
+            chatInput.value = '';
+
+            // Scroll to the bottom of the chat
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+    </script>
+</body>
+</html>
